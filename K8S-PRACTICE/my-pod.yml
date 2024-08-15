@@ -1,0 +1,85 @@
+# ================== POD ==============================
+# apiVersion: v1
+# kind: Pod
+# metadata: 
+#   name: my-app
+# spec:
+#   containers:
+#     - name: my-container-1
+#       image: dafik15/aws-inventory-project-app:19
+
+# ================= deployment =====================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: dafik15/aws-inventory-project-app:19
+#  ================= VOLUMES ================================
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: my-pod
+# spec:
+#   containers:
+#   - name: my-container
+#     image: nginx
+#     volumeMounts:
+#     - name: my-volume
+#       mountPath: /usr/share/nginx/html
+#   volumes:
+#   - name: my-volume
+#     emptyDir: {}
+# ================== PV ===================
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: my-pv
+# spec:
+#   capacity:
+#     storage: 10Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   hostPath:
+#     path: /mnt/data
+
+# ---
+# #  ================ pvc ==============
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: my-pvc
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi
+# ---
+# # ==================== creating pod with pvc =======================
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: my-pod
+# spec:
+#   containers:
+#   - name: my-container
+#     image: nginx
+#     volumeMounts:
+#     - name: my-storage
+#       mountPath: /usr/share/nginx/html
+#   volumes:
+#   - name: my-storage
+#     persistentVolumeClaim:
+#       claimName: my-pvc
